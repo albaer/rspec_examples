@@ -1,70 +1,119 @@
-# Behavior Drill Collapsible Side Menu 
- 
-##Learning Competencies 
-* Position elements using CSS positioning, display and float 
-* Write custom event handlers in JavaScript and jQuery 
-* Use jQuery effects like toggle, show, hide
+# Ruby Flashcards 1 Single Deck
 
-##Summary 
+##Learning Competencies
 
-When designing user interfaces, there are often elements that you would be useful to include if they didn't take up so much screen real estate.  It's a competitive market, and you have to position your elements wisely.
+* Create well-defined classes with a single responsibility
+* Identify and implement classes based on real world requirements
+* Implement clean and flexible interfaces between objects
+* Create interactive command-line applications with data persistence
 
-One way to get around this problem is to make elements collapsible, and then add event handlers to toggle the display of the element.
+##Summary
 
-This is exactly what we're going to build in this challenge: a collapsible sidebar-style navigation area.
+Let's build a simple flashcard game in Ruby with a command-line interface.  Here is an example of one possible implementation:
 
-If you haven't already written the styles for a "sticky" sidebar-style navigation area, go and do the prerequisite challenge.  You can reuse that code for this challenge.
+```text
+$ ruby flashcards.rb
+Welcome to Ruby Flash Cards. To play, just enter the correct term for each definition.  Ready?  Go!
 
-The `source` directory contains a basic HTML file for a product site.  To complete this challenge, you will need to edit the HTML, add some styles to the `main.css` stylesheet, and write your own JavaScript in a separate file.
+Definition
+A file format in which values are delimited by commas.
 
-You will need to brandish the powers of CSS's `position` property, and you will want to use jQuery to help you out with the showing/hiding part.  
+Guess: YAML
+Incorrect!  Try again.
+
+Guess: XML
+Incorrect!  Try again.
+
+Guess: CSV
+Correct!
+
+Definition
+(and so on)
+```
 
 ##Releases
 
-###Release 0 : Make it Collapsible
+###Release 0 : Design
 
-The first step in making an element respond to user input is to ask the question "what should trigger this behavior?"  In other words, what should your JavaScript "listen" for it to know what to do?
+####Choose Your Data Model and Control Flow
 
-This is called *event binding* and it is a core component of designing rich client-side applications.  In this challenge, we're going to stick with a tried-and-true event to trigger the behavior: the mouse click. 
+You might already have a clear picture of how to design your program, but it is always a good idea to articulate your concept using pseudocode, wireframes, or another modeling tool.  You should be able to draw or write out a rough sketch of both the **data model** and the **control flow** of the program.
 
-To make the sidebar collapsible, you will need to provide the user with two things:
+You don't have to go full-TDD on this, but it might be beneficial to create a rough (pseudocode) plan of how you'll end up testing it. This will be pretty high-level, e.g. "we'll test the guessing mechanism by [do something] and checking if [something happened]".
 
-1. A way to open the menu (if it is closed)
-2. A way to close the menu (if it is open)
+This stage should take at most 15-20 minutes.  If you're spending more than that, find a staff member to get you unstuck.
 
-It's as simple as that.  In the screenshots below, you can see how this works in action.
+Some questions to consider:
 
-**1. Open the page, sidebar is closed, and a link is provided to trigger the "open" action**
+- Do you fully understand the logic of the game?
+- What classes (state and behavior) do you need?
+- What are the responsibilities of each class?  Are they single responsibilities?
+- Which methods should be public?  Which should be private?
+- Will your design be amenable to testing?
 
-![Closed Side Menu](http://f.cl.ly/items/2g3z220f2f0Q0H0E1414/collapsible_side_menu-closed.png)
+Once you have a plan in place, create the skeletal file structure for your app.
 
-**2. When the `Open Sesame` link is clicked, the sidebar appears.  Ta-da!**
+Find a staff member or another student and get their opinion on your overall structure.
 
-Notice that the content area is still centered in the white area of the page, *not* centered on the browser window itself.
+#### Cards in a file
 
-![Open Side Menu](http://f.cl.ly/items/2H110f0P0D2n1C1A123k/collapsible_side_menu-open.png)
+The next step is to answer the question of where the cards will come from.  Provided in the repo is a file called `sample_cards.txt`, which demonstrates a supremely basic way to store the card data (definition on one line, term on the next, and then a blank line to separate the two).  In other words, the file looks like:
 
-**3. The sidebar is sticky and can be opened or closed from any scroll position on the page**
+```text
+definition1 definition1 definition1 etc.
+term1 term1 term1 etc.
 
-![Menu open and page scrolled down](http://f.cl.ly/items/3Z3d3U19421M2N2U0W0u/collapsible_side_menu-scrolled_down.png)
+definition2 definition2 definition2 etc.
+term2 term2 term2 etc.
+```
 
-Write whatever HTML, CSS, and JavaScript is needed to achieve the above functionality.
+You can use this same file format for your cards if you like, _or you can create your own_.  Just don't get too fancy.  Remember, we're keeping it simple.
 
-###Release 0 : Make it Pretty
-Add the following improvements to your design: 
+###Release 1 : Build it!
+#### Core architecture
 
-- Instead of an ugly link, make a nicely-styled button toggle the sidebar.  Use the same button to open and close the sidebar.
-- Redesign the sidebar so that when it is closed, a small section of it (~ `20px`) is still showing, and when the user hovers over that section, the full sidebar is shown.
-- Animate the show/hide behavior with jQuery's `animate()` function. 
+Now that you've got a general sketch for your app design and some sample data to work with, it's time to build out your app.
 
-<!-- ##Optimize Your Learning  -->
+Think carefully about how each piece of the puzzle should fit together.  Build it out slowly and test as you go.  Skip the user interface (the part of your program that will receive and respond to user input) for now.  You can mock user input by creating a method on one of your classes that takes a guess as an argument and performs the appropriate action.  Later you can hook this up to real, live user input.
+
+Some questions to consider:
+
+- How will you generate card objects from the source file?
+- How will your classes interact?
+- Where should the game logic live?  What about the file parsing?
+
+#### Interface design
+
+By this point, you should have all of the core components of your application built out.  In other words, *your code should be an accurate model of the ingredients needed for a real-life flashcard game*.  Are you missing anything?
+
+Finally, it is time to implement the interactive part of the game: the piece that will actually let you play with it via your very-own custom interface.
+
+Think about what kinds of inputs and outputs your interface will handle and write the code to match for them.
+
+Some questions to consider:
+
+- How should you check for whether the user's answer is correct?  Where should this logic live?
+- What happens when a user starts the game?
+- What happens when a user finishes the game?
+- How will you handle incorrect answers?
+
+Finish building out your app.  Make sure everything works peachy keen.
+
+##Optimize Your Learning
+
+Consider your choices:
+- Why did you organize your classes and logic in the way that you did?
+- What have you learned about object-oriented thinking?
+- How flexible is your code?  For example, how many changes would you have to make in how many different files to allow for users to see the first letter of the answer?  What if you wanted to allow case-insensitive answers?
+
 
 ##Resources
 
-* [CSS Positioning 101][css-positioning]
-* [jQuery Click Event Binding][jquery-event-binding]
-* [jQuery Toggle Function][jquery-toggle]
+* [software design patterns](http://en.wikipedia.org/wiki/Software_design_pattern)
+* [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+* [Jeff Atwood's post](http://www.codinghorror.com/blog/2008/05/understanding-model-view-controller.html)
 
-[css-positioning]: http://alistapart.com/article/css-positioning-101
-[jquery-event-binding]: http://api.jquery.com/click/
-[jquery-toggle]: http://api.jquery.com/toggle/
+**SPOILER ALERT: These contain solutions to the Todo challenge - make sure you have solved it on your own first!**
+
+* [Code for Tanner's ToDo app](https://gist.github.com/openspectrum/02239bf831cb7ad4b31f)
+* [Jesse's talk on refactoring the ToDo app](http://shereef.wistia.com/medias/c9cbc4fc79)
